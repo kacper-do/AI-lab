@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista rzeczy do zrobienia</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+<div class="container">
+    <h2>Lista rzeczy do zrobienia</h2>
+
+    <input type="text" id="searchInput" placeholder="Wyszukaj...">
+
+    <ul id="taskList">
+        <li>
+            <input type="text" class="task-text" value="Wyrzucenie śmieci" readonly>
+            <span class="task-date">2024-10-14</span>
+            <button class="deleteBtn">🗑️</button>
+        </li>
+
+        <li>
+            <input type="text" class="task-text" value="Gotowanie obiadu" readonly>
+            <span class="task-date">2024-10-15</span>
+            <button class="deleteBtn">🗑️</button>
+        </li>
+
+        <li>
+            <input type="text" class="task-text" value="Zakupy" readonly>
+            <span class="task-date">2024-10-16</span>
+            <button class="deleteBtn">🗑️</button>
+        </li>
+    </ul>
+
+    <div class="add-task">
+        <input type="text" id="taskInput" placeholder="Co do zrobienia..." maxlength="255">
+        <input type="date" id="dateInput">
+        <button id="addBtn">Zapisz</button>
+    </div>
+</div>
+
+</body>
+</html>

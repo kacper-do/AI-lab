@@ -1,0 +1,137 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+#searchInput {
+    width: 96%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+ul#taskList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul#taskList li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    margin-bottom: 8px;
+    background: #f9f9f9;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    transition: background-color 0.3s;
+}
+
+ul#taskList li:hover {
+    background-color: #e8e8e8;
+}
+
+.task-text {
+    flex-grow: 1;
+    padding: 5px;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.task-text:focus {
+    outline: none;
+    background-color: #fff9c4;
+    border-bottom: 1px solid #aaa;
+}
+
+.task-date {
+    margin-left: 12px;
+    font-size: 14px;
+    color: #888;
+}
+
+.deleteBtn {
+    background-color: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #ff6347;
+}
+
+.deleteBtn:hover {
+    color: #ff2e1a;
+}
+
+.add-task {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+#taskInput {
+    flex-grow: 1;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+    font-size: 13px;
+}
+
+#dateInput {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-left: -10px;
+    font-size: 13px;
+}
+
+#addBtn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#addBtn:hover {
+    background-color: #45a049;
+}
+
+@media screen and (max-width: 600px) {
+    .add-task {
+        flex-direction: column;
+    }
+
+    #taskInput, #dateInput, #addBtn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    #addBtn {
+        width: 100%;
+        margin-bottom: 0;
+    }
+}
