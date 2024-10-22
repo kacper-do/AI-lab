@@ -1,0 +1,270 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to bottom, #fce4ec, #f8bbd0);
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+
+.header {
+    background-color: #f48fb1;
+    padding: 30px;
+    text-align: center;
+    border-bottom: 5px solid #ec407a;
+    transition: all 0.3s ease-in-out;
+}
+
+.header:hover {
+    background-color: #ec407a;
+    transition: all 0.3s ease-in-out;
+}
+
+.main-heading {
+    color: #fff;
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+
+.image-section {
+    padding: 30px;
+    background-color: #fce4ec;
+    text-align: center;
+}
+
+.image {
+    width: 40%;
+    border-radius: 15px;
+    border: 5px solid rgba(255, 182, 193, 0.8);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+}
+
+.image:hover {
+    transform: scale(1.05);
+}
+
+
+.text-section {
+    padding: 30px;
+    background-color: #fff;
+    color: #555;
+    line-height: 1.8;
+    font-size: 1.125rem;
+}
+
+.sub-heading {
+    font-size: 2.5rem;
+    color: #d81b60;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.description {
+    margin-top: 20px; /* Odstęp od poprzednich elementów */
+    margin-bottom: 15px; /* Dodanie odstępu między akapitami */
+    text-align: justify;
+    font-weight: 400;
+    padding: 20px;
+    background-color: #fce4ec;
+    border-left: 5px solid #ec407a;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    position: relative;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.description::first-letter {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #d81b60;
+}
+
+.description span.highlight {
+    font-weight: 700;
+    color: #d81b60;
+    font-style: italic;
+}
+
+.list-section {
+    background-color: #f8bbd0;
+    padding: 30px;
+    margin-top: 30px;
+}
+
+.list-heading {
+    font-size: 2rem;
+    color: #ad1457;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.list li {
+    background-color: #fce4ec;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    font-size: 1.125rem;
+    color: #d81b60;
+    border-left: 10px solid #d81b60;
+    border-radius: 10px;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.list li::before {
+    content: "♥";
+    font-size: 1.5rem;
+    color: #d81b60;
+    position: absolute;
+    left: -35px;
+    top: 10px;
+}
+
+.list li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.list li:last-child {
+    margin-bottom: 0;
+}
+
+
+
+.cta-section {
+    padding: 30px;
+    text-align: center;
+    background-color: #f48fb1;
+    margin-top: 40px;
+}
+
+.cta-button {
+    background-color: #ec407a;
+    color: #fff;
+    padding: 15px 40px;
+    border: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 30px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #d81b60;
+    transform: scale(1.05);
+}
+
+
+.footer {
+    padding: 20px;
+    background-color: #ec407a;
+    text-align: center;
+    margin-top: 30px;
+    border-top: 5px solid #d81b60;
+}
+
+.footer-content {
+    color: #fff;
+    font-size: 1rem;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.header, .image-section, .text-section, .list-section, .cta-section, .footer {
+    animation: fadeIn 1s ease-out;
+}
+
+
+@media (max-width: 768px) {
+    .main-heading {
+        font-size: 2.5rem;
+    }
+
+    .image {
+        width: 80%;
+    }
+
+    .sub-heading {
+        font-size: 2rem;
+    }
+
+    .description-heading {
+        font-size: 1.5rem;
+    }
+
+    .text-section {
+        padding: 20px;
+        font-size: 1rem;
+    }
+
+    .list-section {
+        padding: 20px;
+    }
+
+    .cta-button {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-heading {
+        font-size: 2rem;
+    }
+
+    .sub-heading {
+        font-size: 1.5rem;
+    }
+
+    .description-heading {
+        font-size: 1.25rem;
+    }
+
+    .text-section {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .list-section {
+        padding: 10px;
+    }
+
+    .cta-button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+
+    .footer-content {
+        font-size: 0.9rem;
+    }
+}
