@@ -1,45 +1,210 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista rzeczy do zrobienia</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <title>Maps with Leaflet</title>
+    <link rel="stylesheet" href="leaflet-1.7.1/leaflet.css" />
+    <script src="leaflet-1.7.1/leaflet-src.js"></script>
+    <script src="leaflet-1.7.1/leaflet-providers.js"></script>
+    <script src="leaflet-1.7.1/leaflet-image.js"></script>
+    <style>
+        #map {
+            width: 600px;
+            height: 300px;
+            border: 1px solid black;
+        }
+
+        #rasterMap {
+            width: 600px;
+            height: 300px;
+            display: none;
+        }
+
+        #puzzleContainer {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        #puzzlePieces {
+            width: 600px;
+            height: 300px;
+            display: flex;
+            flex-wrap: wrap;
+            border: 1px solid black;
+            margin-top: 20px;
+        }
+
+        #puzzleBoard {
+            width: 600px;
+            height: 300px;
+            display: flex;
+            flex-wrap: wrap;
+            border: 1px solid black;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .puzzle-piece {
+            width: 150px;
+            height: 75px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+            cursor: grab;
+        }
+
+        .dropzone {
+            width: 150px;
+            height: 75px;
+            border: 1px solid #aaa;
+            box-sizing: border-box;
+        }
+    </style>
 </head>
 <body>
-
-<div class="container">
-    <h2>Lista rzeczy do zrobienia</h2>
-
-    <input type="text" id="searchInput" placeholder="Wyszukaj...">
-
-    <ul id="taskList">
-        <li>
-            <input type="text" class="task-text" value="Wyrzucenie śmieci" readonly>
-            <span class="task-date">2024-10-14</span>
-            <button class="deleteBtn">🗑️</button>
-        </li>
-
-        <li>
-            <input type="text" class="task-text" value="Gotowanie obiadu" readonly>
-            <span class="task-date">2024-10-15</span>
-            <button class="deleteBtn">🗑️</button>
-        </li>
-
-        <li>
-            <input type="text" class="task-text" value="Zakupy" readonly>
-            <span class="task-date">2024-10-16</span>
-            <button class="deleteBtn">🗑️</button>
-        </li>
-    </ul>
-
-    <div class="add-task">
-        <input type="text" id="taskInput" placeholder="Co do zrobienia..." maxlength="255">
-        <input type="date" id="dateInput">
-        <button id="addBtn">Zapisz</button>
-    </div>
+<div id="map"></div>
+<button id="getLocation">Moja lokalizacja</button>
+<button id="saveButton">Pobierz mape</button>
+<br>
+<canvas id="rasterMap"></canvas>
+<div id="puzzleContainer">
+    <div id="puzzlePieces"></div>
+    <div id="puzzleBoard"></div>
 </div>
 
+<script>
+    let map = L.map('map').setView([53.430127, 14.564802], 18);
+    L.tileLayer.provider('Esri.WorldImagery').addTo(map);
+    let marker = L.marker([53.430127, 14.564802]).addTo(map);
+    marker.bindPopup("<strong>Hello!</strong><br>This is a popup.");
+
+    document.getElementById("saveButton").addEventListener("click", function() {
+        leafletImage(map, function (err, canvas) {
+            if (err) {
+                console.error("Error generating image from map:", err);
+                return;
+            }
+            let rasterMap = document.getElementById("rasterMap");
+            rasterMap.width = 600;
+            rasterMap.height = 300;
+            rasterMap.getContext("2d").drawImage(canvas, 0, 0, 600, 300);
+            generatePuzzle();
+        });
+    });
+
+    document.getElementById("getLocation").addEventListener("click", function(event) {
+        if (!navigator.geolocation) {
+            console.log("No geolocation.");
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(position => {
+            let lat = position.coords.latitude;
+            let lon = position.coords.longitude;
+            map.setView([lat, lon]);
+            marker.setLatLng([lat, lon]).bindPopup("<strong>Your Location</strong>").openPopup();
+        }, console.error);
+    });
+
+    async function requestNotificationPermission() {
+        if ("Notification" in window && Notification.permission === "default") {
+            await Notification.requestPermission();
+        }
+    }
+
+    requestNotificationPermission();
+
+    function generatePuzzle() {
+        const rasterMap = document.getElementById("rasterMap");
+        const puzzlePiecesContainer = document.getElementById("puzzlePieces");
+        const puzzleBoardContainer = document.getElementById("puzzleBoard");
+
+        puzzlePiecesContainer.innerHTML = "";
+        puzzleBoardContainer.innerHTML = "";
+
+        let pieceIndex = 0;
+        const pieces = [];
+
+
+
+        for (let y = 0; y < 4; y++) {
+            for (let x = 0; x < 4; x++) {
+                const pieceCanvas = document.createElement("canvas");
+                pieceCanvas.width = 150;
+                pieceCanvas.height = 75;
+                pieceCanvas.classList.add("puzzle-piece");
+                pieceCanvas.draggable = true;
+                pieceCanvas.dataset.index = pieceIndex;
+
+                const context = pieceCanvas.getContext("2d");
+                context.drawImage(rasterMap, x * 150, y * 75, 150, 75, 0, 0, 150, 75);
+
+                pieces.push(pieceCanvas);
+                pieceIndex++;
+            }
+        }
+
+        pieces.sort(() => Math.random() - 0.5);
+
+
+        pieces.forEach(piece => {
+            piece.addEventListener("dragstart", dragStart);
+            puzzlePiecesContainer.appendChild(piece);
+        });
+
+
+        for (let i = 0; i < 16; i++) {
+            const dropzone = document.createElement("div");
+            dropzone.classList.add("dropzone");
+            dropzone.dataset.index = i;
+            dropzone.addEventListener("dragover", dragOver);
+            dropzone.addEventListener("drop", dropPiece);
+            puzzleBoardContainer.appendChild(dropzone);
+        }
+    }
+
+    let draggedPiece = null;
+
+    function dragStart(event) {
+        draggedPiece = event.target;
+        event.dataTransfer.setData("text/plain", event.target.dataset.index);
+    }
+
+    function dragOver(event) {
+        event.preventDefault();
+    }
+
+    function dropPiece(event) {
+        event.preventDefault();
+        const targetIndex = event.target.dataset.index;
+        const pieceIndex = draggedPiece.dataset.index;
+
+        if (event.target.classList.contains("dropzone") && !event.target.hasChildNodes()) {
+            event.target.appendChild(draggedPiece);
+        }
+
+        checkPuzzleCompletion();
+    }
+
+    function checkPuzzleCompletion() {
+        const dropzones = document.querySelectorAll(".dropzone");
+        let isComplete = true;
+
+        dropzones.forEach((dropzone, index) => {
+            const piece = dropzone.firstChild;
+            if (!piece || piece.dataset.index != dropzone.dataset.index) {
+                isComplete = false;
+            }
+        });
+
+        if (isComplete) {
+            console.log("Puzzle completed!");
+            if (Notification.permission === "granted") {
+                new Notification("Congratulations! Puzzle completed!");
+            }
+        }
+    }
+</script>
 </body>
 </html>
